@@ -50,7 +50,7 @@ chromedriver_version.txt
 # Application logs
 *.log
 
-# Runtime files
+# Claude Code artifacts
 .claude/
 
 # Test files

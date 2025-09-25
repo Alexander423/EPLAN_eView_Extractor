@@ -2,7 +2,7 @@ pub mod browser;
 pub mod extractor;
 
 use anyhow::Result;
-use crate::models::{PlcTable, PlcEntry, PlcDataType};
+use crate::models::{PlcTable, PlcEntry};
 use crate::chromedriver_manager::ChromeDriverManager;
 use std::sync::Arc;
 use tokio::sync::Mutex;

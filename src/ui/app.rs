@@ -343,7 +343,7 @@ impl EviewApp {
     }
 
     fn apply_professional_theme(&self, ctx: &egui::Context) {
-        let mut visuals = match self.config.theme {
+        let visuals = match self.config.theme {
             crate::config::Theme::Dark => {
                 let mut v = egui::Visuals::dark();
 
@@ -725,7 +725,7 @@ impl EviewApp {
 
                     // Save button
                     if ui.button("💾 Save Settings").clicked() {
-                        if let Err(e) = self.config.save() {
+                        if let Err(_e) = self.config.save() {
                             // Add error to log
                         } else {
                             // Add success to log
@@ -1412,7 +1412,7 @@ impl eframe::App for EviewApp {
         self.apply_professional_theme(ctx);
 
         // Get theme-based colors
-        let (toolbar_bg, tab_bg, content_bg) = self.get_panel_colors();
+        let (toolbar_bg, tab_bg, _content_bg) = self.get_panel_colors();
         let border_color = self.get_border_color();
 
         // Top toolbar with theme-based styling

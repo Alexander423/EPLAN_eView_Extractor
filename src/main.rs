@@ -4,7 +4,6 @@ use tracing_subscriber;
 
 mod ui;
 mod scraper;
-mod auth;
 mod models;
 mod export;
 mod config;
