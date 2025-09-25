@@ -41,6 +41,7 @@ chromedriver.exe
 chromedriver
 chromedriver.zip
 chromedriver_version.txt
+LICENSE.chromedriver
 
 # Temporary files
 *.tmp
