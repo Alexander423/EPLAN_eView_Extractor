@@ -45,6 +45,9 @@ tracing-subscriber = "0.3"
 # Config
 directories = "5.0"
 
+# Image processing for embedded icons
+image = "0.25"
+
 # HTTP client for ChromeDriver download
 reqwest = { version = "0.12", features = ["json"] }
 

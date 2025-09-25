@@ -40,8 +40,26 @@ async fn main() -> Result<()> {
 }
 
 fn load_icon() -> egui::IconData {
-    // For now, return default icon. Later we can load from file
-    egui::IconData::default()
+    // Load embedded PNG icon
+    let icon_bytes = include_bytes!("../assets/icon.png");
+
+    match image::load_from_memory(icon_bytes) {
+        Ok(img) => {
+            let img = img.to_rgba8();
+            let (width, height) = img.dimensions();
+            let rgba = img.into_raw();
+
+            egui::IconData {
+                rgba,
+                width: width as u32,
+                height: height as u32,
+            }
+        },
+        Err(e) => {
+            eprintln!("Failed to load embedded icon: {}", e);
+            egui::IconData::default()
+        }
+    }
 }
 
 fn configure_fonts(ctx: &egui::Context) {
