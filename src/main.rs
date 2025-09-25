@@ -1,3 +1,6 @@
+// Hide console window on Windows for GUI-only app
+#![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
+
 use anyhow::Result;
 use eframe::egui;
 use tracing_subscriber;
