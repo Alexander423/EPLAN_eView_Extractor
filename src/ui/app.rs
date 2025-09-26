@@ -30,6 +30,7 @@ pub struct EviewApp {
     status_message: String,
     progress: f32,
     app_status: AppStatus,
+    password_buffer: String, // Temporary buffer for password input
 
     // Communication channels
     progress_rx: Option<mpsc::UnboundedReceiver<ProgressUpdate>>,
@@ -123,6 +124,8 @@ impl EviewApp {
         // Apply theme
         themes::apply_theme(&cc.egui_ctx, &config.theme);
 
+        let password_buffer = config.password().to_string();
+
         Self {
             config,
             plc_table: PlcTable::new("".to_string()),
@@ -144,6 +147,7 @@ impl EviewApp {
             status_message: "Ready".to_string(),
             progress: 0.0,
             app_status: AppStatus::Ready,
+            password_buffer,
 
             progress_rx: None,
             extraction_handle: None,
@@ -287,8 +291,11 @@ impl EviewApp {
 
             ui.horizontal(|ui| {
                 ui.label("Password:");
-                ui.add(egui::TextEdit::singleline(&mut self.config.password)
+                let password_response = ui.add(egui::TextEdit::singleline(&mut self.password_buffer)
                     .password(true));
+                if password_response.changed() {
+                    self.config.set_password(self.password_buffer.clone());
+                }
             });
         });
 
@@ -623,12 +630,13 @@ impl EviewApp {
                         ui.horizontal(|ui| {
                             ui.label("Password:");
                             let password_response = ui.add(
-                                egui::TextEdit::singleline(&mut self.config.password)
+                                egui::TextEdit::singleline(&mut self.password_buffer)
                                     .desired_width(250.0)
                                     .password(true)
                                     .hint_text("Enter password")
                             );
                             if password_response.changed() {
+                                self.config.set_password(self.password_buffer.clone());
                                 let _ = self.config.save();
                             }
                         });
@@ -760,12 +768,13 @@ impl EviewApp {
             ui.horizontal(|ui| {
                 ui.label("Password:");
                 let password_response = ui.add(
-                    egui::TextEdit::singleline(&mut self.config.password)
+                    egui::TextEdit::singleline(&mut self.password_buffer)
                         .desired_width(200.0)
                         .password(true)
                         .hint_text("Enter password")
                 );
                 if password_response.changed() {
+                    self.config.set_password(self.password_buffer.clone());
                     let _ = self.config.save();
                 }
             });
@@ -1112,7 +1121,7 @@ impl EviewApp {
         let scraper_config = ScraperConfig {
             base_url: "https://eview.eplan.com/".to_string(),
             username: config.email.clone(),
-            password: config.password.clone(),
+            password: config.password().to_string(),
             project_number: config.project_number.clone(),
             headless: config.headless_mode,
         };

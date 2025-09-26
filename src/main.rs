@@ -11,6 +11,7 @@ mod models;
 mod export;
 mod config;
 mod chromedriver_manager;
+mod crypto;
 
 use ui::EviewApp;
 
